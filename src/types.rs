@@ -21,8 +21,8 @@ pub type off_t = c_long;
 // pub type clockid_t = __kernel_clockid_t;
 // pub type mqd_t = __kernel_mqd_t;
 
-// pub type uid_t = __kernel_uid32_t;
-// pub type gid_t = __kernel_gid32_t;
+pub type uid_t = c_uint;
+pub type gid_t = c_uint;
 // pub type uid16_t = __kernel_uid16_t;
 // pub type gid16_t = __kernel_gid16_t;
 

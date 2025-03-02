@@ -106,7 +106,7 @@ unsafe extern "system" {
     // pub unsafe fn clone			(unsigned long clone_flags, unsigned long newsp, int *parent_tidptr, int *child_tidptr, unsigned long tls);
     pub unsafe fn fork() -> pid_t;
     pub unsafe fn vfork() -> pid_t;
-    // pub unsafe fn execve		(const char *filename, const char *const *argv, const char *const *envp);
+    pub unsafe fn execve(filename: *const c_char, argv: *const *const c_char, envp: *const *const c_char) -> c_int;
     pub unsafe fn exit(error_code: c_int);
     // pub unsafe fn wait4			(pid_t upid, int *stat_addr, int options, struct rusage *ru);
     pub unsafe fn kill(pid: pid_t, sig: c_int) -> c_int;
@@ -132,14 +132,14 @@ unsafe extern "system" {
     pub unsafe fn rename(oldname: *const c_char, newname: *const c_char) -> c_uint;
     pub unsafe fn mkdir(pathname: *const c_char, mode: umode_t) -> c_int;
     pub unsafe fn rmdir(pathname: *const c_char) -> c_int;
-    // pub unsafe fn creat(const char *pathname, umode_t mode);
+    pub unsafe fn creat(pathname: *const c_char, mode: umode_t) -> c_long;
     // pub unsafe fn link			(const char *oldname, const char *newname);
     // pub unsafe fn unlink		(const char *pathname);
     // pub unsafe fn symlink			(const char *oldname, const char *newname);
     // pub unsafe fn readlink			(const char *path, char *buf, int bufsiz);
-    // pub unsafe fn chmod			(const char *filename, umode_t mode);
+    pub unsafe fn chmod(filename: *const c_char,  mode: umode_t) -> c_int;
     // pub unsafe fn fchmod			(unsigned int fd, umode_t mode);
-    // pub unsafe fn chown		(const char *filename, uid_t user, gid_t group);
+    pub unsafe fn chown(filename: *const c_char,  user: uid_t,  group: gid_t) -> c_int;
     // pub unsafe fn fchown			(unsigned int fd, uid_t user, gid_t group);
     // pub unsafe fn lchown			(const char *filename, uid_t user, gid_t group);
     // pub unsafe fn umask		(int mask);
