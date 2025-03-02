@@ -88,7 +88,7 @@ unsafe extern "system" {
     pub unsafe fn getpid() -> pid_t;
 
     // pub unsafe fn sendfile64				(int out_fd, int in_fd, loff_t *offset, size_t count);
-    pub unsafe fn socket(family: c_int, _type: c_int, protocol: c_int) -> c_int;
+    // pub unsafe fn socket(family: c_int, _type: c_int, protocol: c_int) -> c_int;
     // pub unsafe fn connect(int fd, struct sockaddr *uservaddr, int addrlen);
     // pub unsafe fn accept		(NET	int fd, struct sockaddr *upeer_sockaddr, int *upeer_addrlen);
     // pub unsafe fn sendto		(NET	int fd, void *buff, size_t len, unsigned int flags, struct sockaddr *addr, int addr_len);
