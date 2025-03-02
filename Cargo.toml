@@ -1,0 +1,11 @@
+[package]
+name = "linux-syscalls"
+version = "0.1.0"
+edition = "2024"
+
+
+[features]
+default = ["x64_86"]
+x64_86 = []
+
+[dependencies]
