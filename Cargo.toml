@@ -1,6 +1,6 @@
 [package]
 name = "syscalls-rust"
-license-file = "gpl-3.0"
+license-file = "LICENSE"
 readme = "README.md"
 description = "Linux syscalls for rust"
 keywords = ["linux", "syscalls", "c", "kernel"]
