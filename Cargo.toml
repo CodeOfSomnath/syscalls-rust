@@ -9,10 +9,6 @@ version = "0.1.2"
 edition = "2024"
 
 
-[lib]
-name = "syscalls"
-crate-type = ["rlib"] 
-
 
 [features]
 default = ["x64_86"]

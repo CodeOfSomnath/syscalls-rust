@@ -7,36 +7,6 @@ use crate::types::*;
 // char * -> *mut c_char
 // const char * -> *const c_char
 
-
-#[repr(C)]
-#[derive(Debug)]
-pub struct Stat {
-	pub st_dev: c_uint,
-	pub st_ino: c_uint,
-	pub st_mode: c_uint,
-	pub st_nlink: c_uint,
-	pub st_uid: c_uint,
-	pub st_gid: c_uint,
-	pub st_rdev: c_uint,
-	pub st_size: c_long,
-	pub st_atime: c_ulong,
-	pub st_mtime: c_ulong,
-	pub st_ctime: c_ulong,
-	pub st_blksize: c_uint,
-	pub st_blocks: c_uint,
-	pub st_flags: c_uint,
-	pub st_gen: c_uint,
-}
-
-#[repr(C)]
-#[derive(Debug)]
-pub struct Pollfd {
-	pub fd: c_int,
-	pub events: c_short,
-	pub revents: c_short,
-}
-
-
 unsafe extern "system" {
     pub unsafe fn read(fd: c_uint, buf: *mut c_char, count: size_t) -> ssize_t;
     pub unsafe fn write(fd: c_uint, buf: *const c_char, count: size_t) -> ssize_t;
@@ -119,13 +89,13 @@ unsafe extern "system" {
     // pub unsafe fn msgsnd		(SYSVIPC	int msqid, struct msgbuf *msgp, size_t msgsz, int msgflg);
     // pub unsafe fn msgrcv		(SYSVIPC	int msqid, struct msgbuf *msgp, size_t msgsz, long msgtyp, int msgflg);
     // pub unsafe fn msgctl		(SYSVIPC	int msqid, int cmd, struct msqid_ds *buf);
-    // pub unsafe fn fcntl		(unsigned int fd, unsigned int cmd, unsigned long arg);
-    // pub unsafe fn flock			(unsigned int fd, unsigned int cmd);
-    // pub unsafe fn fsync			(unsigned int fd);
-    // pub unsafe fn fdatasync			(unsigned int fd);
-    // pub unsafe fn truncate			(const char *path, long length);
-    // pub unsafe fn ftruncate			(unsigned int fd, off_t length);
-    // pub unsafe fn getdents			(unsigned int fd, struct linux_dirent *dirent, unsigned int count);
+    pub unsafe fn fcntl(fd: c_uint, cmd: c_uint, arg: c_uint) -> c_long;
+    pub unsafe fn flock(fd: c_uint, cmd: c_uint) -> c_int;
+    pub unsafe fn fsync(fd: c_uint) -> c_int;
+    pub unsafe fn fdatasync(fd: c_uint) -> c_int;
+    pub unsafe fn truncate(path: *const c_char, length: c_long) -> c_long;
+    pub unsafe fn ftruncate(fd: c_uint, length: off_t) -> c_long;
+    // pub unsafe fn getdents(unsigned int fd, struct linux_dirent *dirent, unsigned int count);
     pub unsafe fn getcwd(buf: *mut c_char, size: c_ulong) -> c_int;
     pub unsafe fn chdir(filename: *const c_char) -> c_int;
     pub unsafe fn fchdir(fd: c_uint) -> c_int;
@@ -133,10 +103,10 @@ unsafe extern "system" {
     pub unsafe fn mkdir(pathname: *const c_char, mode: umode_t) -> c_int;
     pub unsafe fn rmdir(pathname: *const c_char) -> c_int;
     pub unsafe fn creat(pathname: *const c_char, mode: umode_t) -> c_long;
-    // pub unsafe fn link			(const char *oldname, const char *newname);
-    // pub unsafe fn unlink		(const char *pathname);
-    // pub unsafe fn symlink			(const char *oldname, const char *newname);
-    // pub unsafe fn readlink			(const char *path, char *buf, int bufsiz);
+    pub unsafe fn link(oldname: *const c_char, newname: *const c_char) -> c_int;
+    pub unsafe fn unlink(pathname: *const c_char) -> c_int;
+    pub unsafe fn symlink(oldname: *const c_char, newname: *const c_char) -> c_int;
+    pub unsafe fn readlink(path: *const c_char, buf: *mut c_char, bufsiz: c_int) -> c_int;
     pub unsafe fn chmod(filename: *const c_char,  mode: umode_t) -> c_int;
     // pub unsafe fn fchmod			(unsigned int fd, umode_t mode);
     pub unsafe fn chown(filename: *const c_char,  user: uid_t,  group: gid_t) -> c_int;
