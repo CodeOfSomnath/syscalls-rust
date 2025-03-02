@@ -1,4 +1,5 @@
 use std::ffi::*;
+use crate::types::*;
 
 // Rules
 // size_t -> c_uint
@@ -27,22 +28,37 @@ pub struct Stat {
 	pub st_gen: c_uint,
 }
 
+#[repr(C)]
+#[derive(Debug)]
+pub struct Pollfd {
+	pub fd: c_int,
+	pub events: c_short,
+	pub revents: c_short,
+}
+
+
 unsafe extern "system" {
-    pub unsafe fn read(fd: c_uint, buf: *mut c_char, count: c_uint) -> c_long;
-    pub unsafe fn write(fd: c_uint, buf: *const c_char, count: c_uint) -> c_long;
-    pub unsafe fn open(filename: *const c_char, flags: c_int, mode: c_ushort) -> c_int;
+    pub unsafe fn read(fd: c_uint, buf: *mut c_char, count: size_t) -> ssize_t;
+    pub unsafe fn write(fd: c_uint, buf: *const c_char, count: size_t) -> ssize_t;
+    pub unsafe fn open(filename: *const c_char, flags: c_int, mode: umode_t) -> c_long;
     pub unsafe fn close(fd: c_uint) -> c_int;
-    pub unsafe fn newstat(filename: *const c_char, statbuf: *mut Stat);
-    pub unsafe fn newfstat(fd: c_uint, statbuf: *mut Stat);
-    pub unsafe fn newlstat(filename: *const c_char, statbuf: *mut Stat);
-    // pub unsafe fn poll(struct pollfd *ufds, unsigned int nfds, int timeout_msecs);
-    // pub unsafe fn lseek(unsigned int fd, off_t offset, unsigned int whence);
-    // pub unsafe fn mmap(unsigned long addr, unsigned long len, unsigned long prot, unsigned long flags, unsigned long fd, unsigned long off);
-    // pub unsafe fn mprotect(MMU	unsigned long start, size_t len, unsigned long prot);
+
+    // TODO: change the types to define type
+    pub unsafe fn newstat(filename: *const c_char, statbuf: *mut Stat) -> c_int;
+    pub unsafe fn newfstat(fd: c_uint, statbuf: *mut Stat) -> c_int;
+    pub unsafe fn newlstat(filename: *const c_char, statbuf: *mut Stat) -> c_int;
+    pub unsafe fn poll(ufds: *mut Pollfd, nfds: c_uint, timeout_msecs: c_int) -> c_int;
+    pub unsafe fn lseek(fd: c_uint,  offset: off_t, whence: c_uint) -> c_long;
+    pub unsafe fn mmap(addr: c_ulong, len: c_ulong, prot: c_ulong, flags: c_ulong, fd: c_ulong, off: c_ulong) -> c_ulong;
+    pub unsafe fn mprotect(start: c_ulong, len: c_uint, prot: c_ulong) -> c_int;
     // pub unsafe fn munmap(unsigned long addr, size_t len);
+    pub unsafe fn munmap(addr: c_ulong, len: c_ulong) -> c_int;
     // pub unsafe fn brk				(unsigned long brk);
+    pub unsafe fn brk(brk: c_ulong) -> c_ulong;
     // pub unsafe fn rt_sigaction	(int sig, const struct sigaction *act, struct sigaction *oact, size_t sigsetsize);
-    // pub unsafe fn rt_sigprocmask				(int how, sigset_t *nset, sigset_t *oset, size_t sigsetsize);
+    // pub unsafe fn rt_sigaction(sig: c_int, const struct sigaction *act, struct sigaction *oact, size_t sigsetsize) -> c_int;
+    
+	// pub unsafe fn rt_sigprocmask				(int how, sigset_t *nset, sigset_t *oset, size_t sigsetsize);
     // pub unsafe fn rt_sigreturn				(void);
     // pub unsafe fn ioctl			(unsigned int fd, unsigned int cmd, unsigned long arg);
     // pub unsafe fn pread64				(unsigned int fd, char *buf, size_t count, loff_t pos);
@@ -67,10 +83,13 @@ unsafe extern "system" {
     // pub unsafe fn getitimer				(int which, struct __kernel_old_itimerval *value);
     // pub unsafe fn alarm				(unsigned int seconds
     // pub unsafe fn setitimer				(int which, struct __kernel_old_itimerval *value, struct __kernel_old_itimerval *ovalue);
+    
     // pub unsafe fn getpid				(void);
+    pub unsafe fn getpid() -> pid_t;
+
     // pub unsafe fn sendfile64				(int out_fd, int in_fd, loff_t *offset, size_t count);
-    // pub unsafe fn socket		(NET	int family, int type, int protocol);
-    // pub unsafe fn connect		(NET	int fd, struct sockaddr *uservaddr, int addrlen);
+    pub unsafe fn socket(family: c_int, _type: c_int, protocol: c_int) -> c_int;
+    // pub unsafe fn connect(int fd, struct sockaddr *uservaddr, int addrlen);
     // pub unsafe fn accept		(NET	int fd, struct sockaddr *upeer_sockaddr, int *upeer_addrlen);
     // pub unsafe fn sendto		(NET	int fd, void *buff, size_t len, unsigned int flags, struct sockaddr *addr, int addr_len);
     // pub unsafe fn recvfrom		(NET	int fd, void *ubuf, size_t size, unsigned int flags, struct sockaddr *addr, int *addr_len);
@@ -85,12 +104,12 @@ unsafe extern "system" {
     // pub unsafe fn setsockopt		(NET	int fd, int level, int optname, char *optval, int optlen);
     // pub unsafe fn getsockopt		(NET	int fd, int level, int optname, char *optval, int *optlen);
     // pub unsafe fn clone			(unsigned long clone_flags, unsigned long newsp, int *parent_tidptr, int *child_tidptr, unsigned long tls);
-    // pub unsafe fn fork		(MMU	void);
-    // pub unsafe fn vfork			(void);
+    pub unsafe fn fork() -> pid_t;
+    pub unsafe fn vfork() -> pid_t;
     // pub unsafe fn execve		(const char *filename, const char *const *argv, const char *const *envp);
-    // pub unsafe fn exit			(int error_code);
+    pub unsafe fn exit(error_code: c_int);
     // pub unsafe fn wait4			(pid_t upid, int *stat_addr, int options, struct rusage *ru);
-    // pub unsafe fn kill			(pid_t pid, int sig);
+    pub unsafe fn kill(pid: pid_t, sig: c_int) -> c_int;
     // pub unsafe fn newuname		(	struct new_utsname *name);
     // pub unsafe fn semget		(SYSVIPC	key_t key, int nsems, int semflg);
     // pub unsafe fn semop		(SYSVIPC	int semid, struct sembuf *tsops, unsigned nsops);
@@ -107,13 +126,13 @@ unsafe extern "system" {
     // pub unsafe fn truncate			(const char *path, long length);
     // pub unsafe fn ftruncate			(unsigned int fd, off_t length);
     // pub unsafe fn getdents			(unsigned int fd, struct linux_dirent *dirent, unsigned int count);
-    // pub unsafe fn getcwd			(char *buf, unsigned long size);
-    // pub unsafe fn chdir			(const char *filename);
-    // pub unsafe fn fchdir			(unsigned int fd);
-    // pub unsafe fn rename			(const char *oldname, const char *newname);
-    // pub unsafe fn mkdir		(const char *pathname, umode_t mode);
-    // pub unsafe fn rmdir		(const char *pathname);
-    // pub unsafe fn creat			(const char *pathname, umode_t mode);
+    pub unsafe fn getcwd(buf: *mut c_char, size: c_ulong) -> c_int;
+    pub unsafe fn chdir(filename: *const c_char) -> c_int;
+    pub unsafe fn fchdir(fd: c_uint) -> c_int;
+    pub unsafe fn rename(oldname: *const c_char, newname: *const c_char) -> c_uint;
+    pub unsafe fn mkdir(pathname: *const c_char, mode: umode_t) -> c_int;
+    pub unsafe fn rmdir(pathname: *const c_char) -> c_int;
+    // pub unsafe fn creat(const char *pathname, umode_t mode);
     // pub unsafe fn link			(const char *oldname, const char *newname);
     // pub unsafe fn unlink		(const char *pathname);
     // pub unsafe fn symlink			(const char *oldname, const char *newname);
