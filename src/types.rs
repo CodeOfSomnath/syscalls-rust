@@ -1,6 +1,6 @@
 #![allow(non_camel_case_types)]
 
-use std::ffi::{c_int, c_long, c_uchar, c_uint, c_ulong, c_ushort};
+use std::ffi::{c_char, c_int, c_long, c_uchar, c_uint, c_ulong, c_ushort};
 
 // pub type s128 = __s128;
 // pub type u128 = __u128;
@@ -38,3 +38,12 @@ pub type u_char = c_uchar;
 pub type u_short = c_ushort;
 pub type u_int = c_uint;
 pub type u_long = c_ulong;
+pub type sa_family_t = c_ushort;
+
+
+#[repr(C)]
+#[derive(Debug)]
+pub struct sockaddr {
+	pub sa_family: sa_family_t,	/* address family, AF_xxx	*/
+	sa_data_min: [c_char; 14],		/* Minimum 14 bytes of protocol address	*/
+}

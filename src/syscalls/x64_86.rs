@@ -88,16 +88,16 @@ unsafe extern "system" {
     pub unsafe fn getpid() -> pid_t;
 
     // pub unsafe fn sendfile64				(int out_fd, int in_fd, loff_t *offset, size_t count);
-    // pub unsafe fn socket(family: c_int, _type: c_int, protocol: c_int) -> c_int;
-    // pub unsafe fn connect(int fd, struct sockaddr *uservaddr, int addrlen);
-    // pub unsafe fn accept		(NET	int fd, struct sockaddr *upeer_sockaddr, int *upeer_addrlen);
+    pub unsafe fn socket(family: c_int, _type: c_int, protocol: c_int) -> c_int;
+    pub unsafe fn connect(fd: c_int,uservaddr: *mut sockaddr, addrlen: c_int) -> c_int;
+    pub unsafe fn accept(fd: c_int, upeer_sockaddr: *mut sockaddr, upeer_addrlen: *mut c_int) -> c_int;
     // pub unsafe fn sendto		(NET	int fd, void *buff, size_t len, unsigned int flags, struct sockaddr *addr, int addr_len);
     // pub unsafe fn recvfrom		(NET	int fd, void *ubuf, size_t size, unsigned int flags, struct sockaddr *addr, int *addr_len);
     // pub unsafe fn sendmsg		(NET	int fd, struct user_msghdr *msg, unsigned int flags);
     // pub unsafe fn recvmsg		(NET	int fd, struct user_msghdr *msg, unsigned int flags);
     // pub unsafe fn shutdown		(NET	int fd, int how);
-    // pub unsafe fn bind		(NET	int fd, struct sockaddr *umyaddr, int addrlen);
-    // pub unsafe fn listen		(NET	int fd, int backlog);
+    pub unsafe fn bind(fd: c_int, umyaddr: *mut sockaddr, addrlen: c_int) -> c_int;
+    pub unsafe fn listen(fd: c_int, backlog: c_int) -> c_int;
     // pub unsafe fn getsockname		(NET	int fd, struct sockaddr *usockaddr, int *usockaddr_len);
     // pub unsafe fn getpeername		(NET	int fd, struct sockaddr *usockaddr, int *usockaddr_len);
     // pub unsafe fn socketpair		(NET	int family, int type, int protocol, int *usockvec);
