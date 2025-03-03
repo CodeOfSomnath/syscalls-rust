@@ -3,7 +3,7 @@ name: Deploy Rust Docs
 on:
   push:
     branches:
-      - master # Change this if your default branch is different
+      - docs # Change this if your default branch is different
 
 jobs:
   deploy:
