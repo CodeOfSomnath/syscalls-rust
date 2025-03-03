@@ -39,6 +39,7 @@ pub type u_short = c_ushort;
 pub type u_int = c_uint;
 pub type u_long = c_ulong;
 pub type sa_family_t = c_ushort;
+pub type mode_t = c_ushort;
 
 
 #[repr(C)]
