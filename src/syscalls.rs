@@ -9,7 +9,7 @@ pub mod arch64; // x86 64 bit, x86-64 abi
 
 
 // This is a sample documentation for all the function donot change it here
-// copy and change according to funcitons
+// copy and change according to functions
  
 // / read() attempts to read up to count bytes from file descriptor fd
 // / into the buffer starting at buf.<br>

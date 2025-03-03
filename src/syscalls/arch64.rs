@@ -48,7 +48,18 @@ unsafe extern "system" {
     pub unsafe fn open(filename: *const c_char, flags: c_int, mode: umode_t) -> c_long;
     
 
+    /// close() closes a file descriptor, so that it no longer refers to
+    /// any file and may be reused.<br>
+    /// #### RETURN VALUE
+    /// close() returns zero on success.  On error, -1 is returned, and
+    /// errno is set to indicate the error.<br>
+    /// #### ERRORS
+    /// EBADF(9), EINTR(4), EIO(5), ENOSPC(28), etc.
+    /// #### Link
+    /// Read the docs
+    /// [here](https://man7.org/linux/man-pages/man2/close.2.html)
     pub unsafe fn close(fd: c_uint) -> c_int;
+
     pub unsafe fn newstat(filename: *const c_char, statbuf: *mut Stat) -> c_int;
     pub unsafe fn newfstat(fd: c_uint, statbuf: *mut Stat) -> c_int;
     pub unsafe fn newlstat(filename: *const c_char, statbuf: *mut Stat) -> c_int;
@@ -89,7 +100,16 @@ unsafe extern "system" {
     // pub unsafe fn alarm				(unsigned int seconds
     // pub unsafe fn setitimer				(int which, struct __kernel_old_itimerval *value, struct __kernel_old_itimerval *ovalue);
     
-    // pub unsafe fn getpid				(void);
+    /// getpid() returns the process ID (PID) of the calling process.
+    /// (This is often used by routines that generate unique temporary
+    /// filenames.)<br>
+    /// #### RETURN VALUE
+    /// getpid() returns the process ID (PID) of the calling process
+    /// #### ERRORS
+    /// These functions are always successful.
+    /// #### Link
+    /// Read the docs
+    /// [here](https://man7.org/linux/man-pages/man2/read.2.html)
     pub unsafe fn getpid() -> pid_t;
 
     // pub unsafe fn sendfile64				(int out_fd, int in_fd, loff_t *offset, size_t count);
