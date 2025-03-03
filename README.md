@@ -19,8 +19,8 @@ using cargo.toml
 ```toml
 
 [dependencies.syscalls-rust]
-version = "0.1.7" # latest version
-features = ["x64_86"] # This is the support for 64 bit systems
+version = "0.1.8" # latest version
+features = ["arch64"] # This is the support for 64 bit systems
 ```
 
 # Features
@@ -32,8 +32,8 @@ You can add the features using Cargo.toml file:
 ```toml
 
 [dependencies.syscalls-rust]
-version = "0.1.7" # latest version
-features = ["x64_86"] # This is the support for 64 bit systems
+version = "0.1.8" # latest version
+features = ["arch64"] # This is the support for 64 bit systems
 ```
 
 
@@ -51,14 +51,20 @@ readme = "README.md"
 description = "Linux syscalls for rust"
 keywords = ["linux", "syscalls", "c", "kernel"]
 repository = "https://github.com/CodeOfSomnath/linux-syscalls"
-version = "0.1.7"
+version = "0.1.8"
 edition = "2024"
 
 
 
 [features]
-default = ["x64_86"]
-x64_86 = []
+# This features are defined for different architecture.
+# if any arch I have missed then raise a issue and tell me about it
+default = ["arch64"]
+arch32 = [] # x86 64 bit, x32 abi
+arch64 = [] # x86 64 bit, x86-64 abi
+arm64 = [] # Arm 64 bit, Arch 64 bit
+arm32 = [] # Arm 64 bit, Arch 32 bit
+
 
 [dependencies]
 

@@ -5,7 +5,7 @@ readme = "README.md"
 description = "Linux syscalls for rust"
 keywords = ["linux", "syscalls", "c", "kernel"]
 repository = "https://github.com/CodeOfSomnath/linux-syscalls"
-version = "0.1.7"
+version = "0.1.8"
 edition = "2024"
 
 
