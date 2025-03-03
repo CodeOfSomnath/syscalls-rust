@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["Pollfd","Stat","sockaddr"],"type":["gid_t","intptr_t","mode_t","nlink_t","off_t","pid_t","sa_family_t","size_t","ssize_t","u_char","u_int","u_long","u_short","uid_t","uintptr_t","umode_t"]};

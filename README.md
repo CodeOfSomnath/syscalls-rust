@@ -54,10 +54,6 @@ version = "0.2.6"
 edition = "2024"
 categories = ["api-bindings", "os::linux-apis"]
 
-# .cargo/config.toml
-[target.'cfg(target_os = "linux")']
-rustdocflags = ["--cfg", "docsrs"]
-
 
 [features]
 # This features are defined for different architecture.
