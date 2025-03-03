@@ -1,0 +1,28 @@
+name: Deploy Rust Docs
+
+on:
+  push:
+    branches:
+      - master # Change this if your default branch is different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build documentation
+        run: |
+          cargo doc --no-deps
+          echo "<meta http-equiv=\"refresh\" content=\"0; url=syscalls-rust\">" > target/doc/index.html
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: target/doc
