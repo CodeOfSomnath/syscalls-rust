@@ -44,7 +44,6 @@ Well You can see Cargo.toml and check yourself which features is now available
 ```toml
 [package]
 name = "syscalls-rust"
-license-file = "LICENSE"
 license = "GPL-3.0-only"
 readme = "README.md"
 description = "Linux syscalls for rust"
