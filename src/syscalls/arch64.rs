@@ -178,10 +178,10 @@ unsafe extern "system" {
     // pub unsafe fn sync	(		void);
     // pub unsafe fn acct	(	BSD_PROCESS_ACCT	const char *name);
     // pub unsafe fn settimeofday	(		struct __kernel_old_timeval *tv, struct timezone *tz);
-    // pub unsafe fn mount	(		char *dev_name, char *dir_name, char *type, unsigned long flags, void *data);
-    // pub unsafe fn umount	(		char *name, int flags);
-    // pub unsafe fn swapon	(	SWAP	const char *specialfile, int swap_flags);
-    // pub unsafe fn swapoff	(	SWAP	const char *specialfile);
+    pub unsafe fn mount(dev_name: *mut c_char, dir_name: *mut c_char, _type: *mut c_char, flags: c_ulong, data: *mut c_void) -> c_int;
+    pub unsafe fn umount(name: *mut c_char, flags: c_int) -> c_int;
+    pub unsafe fn swapon(specialfile: *const c_char, swap_flags: c_int) -> c_int;
+    pub unsafe fn swapoff(specialfile: *const c_char);
     // pub unsafe fn reboot	(		int magic1, int magic2, unsigned int cmd, void *arg);
     // pub unsafe fn sethostname	(		char *name, int len);
     // pub unsafe fn setdomainname(		char *name, int len);

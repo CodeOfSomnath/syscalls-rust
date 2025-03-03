@@ -14,10 +14,9 @@ cargo add syscalls-rust
 ```
 or<br>
 
-using cargo.toml
+using Cargo.toml
 
 ```toml
-
 [dependencies.syscalls-rust]
 version = "0.1.8" # latest version
 features = ["arch64"] # This is the support for 64 bit systems
@@ -30,7 +29,6 @@ There are only available feature is 'x64_86'
 You can add the features using Cargo.toml file:
 
 ```toml
-
 [dependencies.syscalls-rust]
 version = "0.1.8" # latest version
 features = ["arch64"] # This is the support for 64 bit systems
