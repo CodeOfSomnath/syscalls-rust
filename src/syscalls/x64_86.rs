@@ -108,7 +108,7 @@ unsafe extern "system" {
     pub unsafe fn symlink(oldname: *const c_char, newname: *const c_char) -> c_int;
     pub unsafe fn readlink(path: *const c_char, buf: *mut c_char, bufsiz: c_int) -> c_int;
     pub unsafe fn chmod(filename: *const c_char,  mode: umode_t) -> c_int;
-    // pub unsafe fn fchmod			(unsigned int fd, umode_t mode);
+    pub unsafe fn fchmod(fd: c_int, mode: umode_t) -> c_int;
     pub unsafe fn chown(filename: *const c_char,  user: uid_t,  group: gid_t) -> c_int;
     // pub unsafe fn fchown			(unsigned int fd, uid_t user, gid_t group);
     // pub unsafe fn lchown			(const char *filename, uid_t user, gid_t group);
