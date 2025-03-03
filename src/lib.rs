@@ -1,3 +1,4 @@
+#![cfg(target_os = "linux")]
 
 /// This module contains all the syscalls needed with their signatures and data types.<br>
 /// This is not an implementation of syscalls in rust.<br>
