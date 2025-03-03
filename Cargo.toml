@@ -11,7 +11,13 @@ edition = "2024"
 
 
 [features]
-default = ["x64_86"]
-x64_86 = []
+# This features are defined for different architecture.
+# if any arch I have missed then raise a issue and tell me about it
+default = ["arch64"]
+arch32 = [] # x86 64 bit, x32 abi
+arch64 = [] # x86 64 bit, x86-64 abi
+arm64 = [] # Arm 64 bit, Arch 64 bit
+arm32 = [] # Arm 64 bit, Arch 32 bit
+
 
 [dependencies]

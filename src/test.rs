@@ -1,6 +1,6 @@
 #![cfg(test)]
 
-use crate::syscalls::x64_86::*;
+use crate::syscalls::arch64::*;
 
 
 #[test]

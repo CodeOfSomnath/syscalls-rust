@@ -1,11 +1,8 @@
+#![cfg(feature = "arch64")]
+
 use std::ffi::*;
 use crate::types::*;
 
-// Rules
-// size_t -> c_uint
-// unsigned int -> c_uint
-// char * -> *mut c_char
-// const char * -> *const c_char
 
 unsafe extern "system" {
     pub unsafe fn read(fd: c_uint, buf: *mut c_char, count: size_t) -> ssize_t;
@@ -18,13 +15,13 @@ unsafe extern "system" {
     pub unsafe fn newfstat(fd: c_uint, statbuf: *mut Stat) -> c_int;
     pub unsafe fn newlstat(filename: *const c_char, statbuf: *mut Stat) -> c_int;
     pub unsafe fn poll(ufds: *mut Pollfd, nfds: c_uint, timeout_msecs: c_int) -> c_int;
-    pub unsafe fn lseek(fd: c_uint,  offset: off_t, whence: c_uint) -> c_long;
+    pub unsafe fn lseek(fd: c_uint,  offset: off_t, whence: c_uint) -> off_t;
     pub unsafe fn mmap(addr: c_ulong, len: c_ulong, prot: c_ulong, flags: c_ulong, fd: c_ulong, off: c_ulong) -> c_ulong;
-    pub unsafe fn mprotect(start: c_ulong, len: c_uint, prot: c_ulong) -> c_int;
-    // pub unsafe fn munmap(unsigned long addr, size_t len);
-    pub unsafe fn munmap(addr: c_ulong, len: c_ulong) -> c_int;
-    // pub unsafe fn brk				(unsigned long brk);
+    pub unsafe fn mprotect(start: c_ulong, len: size_t, prot: c_ulong) -> c_int;
+    pub unsafe fn munmap(addr: c_ulong, len: size_t) -> c_int;
     pub unsafe fn brk(brk: c_ulong) -> c_ulong;
+
+
     // pub unsafe fn rt_sigaction	(int sig, const struct sigaction *act, struct sigaction *oact, size_t sigsetsize);
     // pub unsafe fn rt_sigaction(sig: c_int, const struct sigaction *act, struct sigaction *oact, size_t sigsetsize) -> c_int;
     
@@ -120,7 +117,7 @@ unsafe extern "system" {
     // pub unsafe fn times		(struct tms *tbuf);
     // pub unsafe fn ptrace			(long request, long pid, unsigned long addr, unsigned long data);
     // pub unsafe fn getuid			(void);
-    // pub unsafe fn syslog			(int type, char *buf, int len);
+    pub unsafe fn syslog(_type: c_int, buf: *mut c_char, len: c_int) -> c_int;
     // pub unsafe fn getgid			(void);
     // pub unsafe fn setuid		(MULTIUSER	uid_t uid);
     // pub unsafe fn setgid	(MULTIUSER	gid_t gid);
@@ -226,15 +223,19 @@ unsafe extern "system" {
 // 	pub unsafe fn restart_syscall	__x64_sys_restart_syscall	kernel/signal.c:3177		void
 // 	pub unsafe fn semtimedop	__x64_sys_semtimedop	ipc/sem.c:2268	SYSVIPC	int semid, struct sembuf *tsops, unsigned int nsops, const struct __kernel_timespec *timeout
 // 	pub unsafe fn fadvise64	__x64_sys_fadvise64	mm/fadvise.c:208	ADVISE_SYSCALLS	int fd, loff_t offset, size_t len, int advice
-// 	pub unsafe fn timer_create	__x64_sys_timer_create	kernel/time/posix-timers.c:480	POSIX_TIMERS	const clockid_t which_clock, struct sigevent *timer_event_spec, timer_t *created_timer_id
-// 	pub unsafe fn timer_settime	__x64_sys_timer_settime	kernel/time/posix-timers.c:914	POSIX_TIMERS	timer_t timer_id, int flags, const struct __kernel_itimerspec *new_setting, struct __kernel_itimerspec *old_setting
-// 	pub unsafe fn timer_gettime	__x64_sys_timer_gettime	kernel/time/posix-timers.c:676	POSIX_TIMERS	timer_t timer_id, struct __kernel_itimerspec *setting
-// 	pub unsafe fn timer_getoverrun	__x64_sys_timer_getoverrun	kernel/time/posix-timers.c:724	POSIX_TIMERS	timer_t timer_id
-// 	pub unsafe fn timer_delete	__x64_sys_timer_delete	kernel/time/posix-timers.c:994	POSIX_TIMERS	timer_t timer_id
+
+// Time functions
+	// pub unsafe fn timer_create	(	const clockid_t which_clock, struct sigevent *timer_event_spec, timer_t *created_timer_id);
+	// pub unsafe fn timer_settime	(	timer_t timer_id, int flags, const struct __kernel_itimerspec *new_setting, struct __kernel_itimerspec *old_setting);
+	// pub unsafe fn timer_gettime	(	timer_t timer_id, struct __kernel_itimerspec *setting);
+	// pub unsafe fn timer_getoverrun	(	timer_t timer_id);
+	// pub unsafe fn timer_delete	(	timer_t timer_id);
+
 // 	pub unsafe fn clock_settime	__x64_sys_clock_settime	kernel/time/posix-timers.c:1119		const clockid_t which_clock, const struct __kernel_timespec *tp
 // 	pub unsafe fn clock_gettime	__x64_sys_clock_gettime	kernel/time/posix-timers.c:1138		const clockid_t which_clock, struct __kernel_timespec *tp
 // 	pub unsafe fn clock_getres	__x64_sys_clock_getres	kernel/time/posix-timers.c:1258		const clockid_t which_clock, struct __kernel_timespec *tp
 // 	pub unsafe fn clock_nanosleep	__x64_sys_clock_nanosleep	kernel/time/posix-timers.c:1379		const clockid_t which_clock, int flags, const struct __kernel_timespec *rqtp, struct __kernel_timespec *rmtp
+
 // 	pub unsafe fn exit_group	__x64_sys_exit_group	kernel/exit.c:1096		int error_code
 // 	pub unsafe fn epoll_wait	__x64_sys_epoll_wait	fs/eventpoll.c:2487	EPOLL	int epfd, struct epoll_event *events, int maxevents, int timeout
 // 	pub unsafe fn epoll_ctl	__x64_sys_epoll_ctl	fs/eventpoll.c:2436	EPOLL	int epfd, int op, int fd, struct epoll_event *event
@@ -382,6 +383,3 @@ unsafe extern "system" {
 // 	pub unsafe fn getxattrat	__x64_sys_getxattrat	fs/xattr.c:863		int dfd, const char *pathname, unsigned int at_flags, const char *name, struct xattr_args *uargs, size_t usize
 // 	pub unsafe fn listxattrat	__x64_sys_listxattrat	fs/xattr.c:991		int dfd, const char *pathname, unsigned int at_flags, char *list, size_t size
 // 	pub unsafe fn removexattrat	__x64_sys_removexattrat	fs/xattr.c:1091		int dfd, const char *pathname, unsigned int at_flags, const char *name
-// 362  syscalls
-
-// Copyright © 2023-2024 Marco Bonelli — Licensed under the GNU General Public License v3.0
