@@ -4,13 +4,52 @@ use std::ffi::*;
 use crate::types::*;
 
 
-unsafe extern "system" {
-    pub unsafe fn read(fd: c_uint, buf: *mut c_char, count: size_t) -> ssize_t;
-    pub unsafe fn write(fd: c_uint, buf: *const c_char, count: size_t) -> ssize_t;
-    pub unsafe fn open(filename: *const c_char, flags: c_int, mode: umode_t) -> c_long;
-    pub unsafe fn close(fd: c_uint) -> c_int;
 
-    // TODO: change the types to define type
+
+
+unsafe extern "system" {
+    /// #### DESCRIPTION 
+    /// read() attempts to read up to count bytes from file descriptor fd
+    /// into the buffer starting at buf.<br>
+    /// #### RETURN VALUE
+    /// On success, the number of bytes read is returned (zero indicates
+    /// end of file), and the file position is advanced by this number.
+    /// #### ERRORS
+    /// EAGAIN(35), EBADF(9), EFAULT(14), EINTR(4), EINVAL(22), EIO(5), EISDIR(21), etc.
+    /// #### Link
+    /// Read the docs
+    /// [here](https://man7.org/linux/man-pages/man2/read.2.html)
+    pub unsafe fn read(fd: c_uint, buf: *mut c_char, count: size_t) -> ssize_t;
+
+    /// #### DESCRIPTION 
+    /// write() writes up to count bytes from the buffer starting at buf
+    /// to the file referred to by the file descriptor fd.<br>
+    /// #### RETURN VALUE
+    /// On success, the number of bytes written is returned.  On error, -1
+    /// is returned, and errno is set to indicate the error.
+    /// #### ERRORS
+    /// EAGAIN(35), EBADF(9), EDESTADDRREQ(39), EDQUOT(69), EFAULT(14), EFBIG(27),<br>
+    /// EINTR(4), EINVAL(22), EIO(5), ENOSPC(28), EPERM(1), EPIPE(32), etc.
+    /// #### Link
+    /// Read the docs
+    /// [here](https://man7.org/linux/man-pages/man2/write.2.html)
+    pub unsafe fn write(fd: c_uint, buf: *const c_char, count: size_t) -> ssize_t;
+
+    /// #### DESCRIPTION 
+    /// The open() system call opens the file specified by pathname.  If
+    /// the specified file does not exist, it may optionally (if O_CREAT
+    /// is specified in flags) be created by open().<br>
+    /// #### RETURN VALUE
+    /// On success, the number of bytes read is returned (zero indicates
+    /// end of file), and the file position is advanced by this number.
+    /// #### ERRORS
+    /// EAGAIN(35), EBADF(9), EFAULT(14), EINTR(4), EINVAL(22), EIO(5), EISDIR(21), etc.
+    /// #### Link
+    /// Read the docs
+    /// [here](https://man7.org/linux/man-pages/man2/open.2.html)
+    pub unsafe fn open(filename: *const c_char, flags: c_int, mode: umode_t) -> c_long;
+    
+    pub unsafe fn close(fd: c_uint) -> c_int;
     pub unsafe fn newstat(filename: *const c_char, statbuf: *mut Stat) -> c_int;
     pub unsafe fn newfstat(fd: c_uint, statbuf: *mut Stat) -> c_int;
     pub unsafe fn newlstat(filename: *const c_char, statbuf: *mut Stat) -> c_int;

@@ -1,11 +1,12 @@
 [package]
 name = "syscalls-rust"
 license-file = "LICENSE"
+license = "GPL-3.0-only"
 readme = "README.md"
 description = "Linux syscalls for rust"
 keywords = ["linux", "syscalls", "c", "kernel"]
 repository = "https://github.com/CodeOfSomnath/linux-syscalls"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2024"
 
 
