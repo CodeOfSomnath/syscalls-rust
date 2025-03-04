@@ -47,7 +47,6 @@ unsafe extern "system" {
     /// [here](https://man7.org/linux/man-pages/man2/open.2.html)
     pub unsafe fn open(filename: *const c_char, flags: c_int, mode: umode_t) -> c_long;
     
-
     /// close() closes a file descriptor, so that it no longer refers to
     /// any file and may be reused.<br>
     /// #### RETURN VALUE
@@ -68,6 +67,17 @@ unsafe extern "system" {
     pub unsafe fn mmap(addr: c_ulong, len: c_ulong, prot: c_ulong, flags: c_ulong, fd: c_ulong, off: c_ulong) -> c_ulong;
     pub unsafe fn mprotect(start: c_ulong, len: size_t, prot: c_ulong) -> c_int;
     pub unsafe fn munmap(addr: c_ulong, len: size_t) -> c_int;
+
+    /// brk() and sbrk() change the location of the program break, which
+    /// defines the end of the process's data segment.<br>
+    /// #### RETURN VALUE
+    /// On success, brk() returns zero. On error, -1 is returned, and
+    /// errno is set to ENOMEM.
+    /// #### ERRORS
+    /// ENOMEM(12), etc.
+    /// #### Link
+    /// Read the docs
+    /// [here](https://man7.org/linux/man-pages/man2/brk.2.html)
     pub unsafe fn brk(brk: c_ulong) -> c_ulong;
 
 
@@ -109,7 +119,7 @@ unsafe extern "system" {
     /// These functions are always successful.
     /// #### Link
     /// Read the docs
-    /// [here](https://man7.org/linux/man-pages/man2/read.2.html)
+    /// [here](https://man7.org/linux/man-pages/man2/getpid.2.html)
     pub unsafe fn getpid() -> pid_t;
 
     // pub unsafe fn sendfile64				(int out_fd, int in_fd, loff_t *offset, size_t count);
@@ -129,12 +139,53 @@ unsafe extern "system" {
     // pub unsafe fn setsockopt		(NET	int fd, int level, int optname, char *optval, int optlen);
     // pub unsafe fn getsockopt		(NET	int fd, int level, int optname, char *optval, int *optlen);
     // pub unsafe fn clone			(unsigned long clone_flags, unsigned long newsp, int *parent_tidptr, int *child_tidptr, unsigned long tls);
+    
+    /// fork() creates a new process by duplicating the calling process.
+    /// The new process is referred to as the child process.  The calling
+    /// process is referred to as the parent process.
+    /// #### RETURN VALUE
+    /// On success, the PID of the child process is returned in the
+    /// parent, and 0 is returned in the child.  On failure, -1 is
+    /// returned in the parent, no child process is created, and errno is
+    /// set to indicate the error.
+    /// #### ERRORS
+    /// EAGAIN(35), ENOMEM(12), ENOSYS(78), ERESTARTNOINTR(513), etc.
+    /// #### Link
+    /// Read the docs
+    /// [here](https://man7.org/linux/man-pages/man2/fork.2.html)
     pub unsafe fn fork() -> pid_t;
+
+    /// vfork - create a child process and block parent
+    /// #### Link
+    /// Read the docs
+    /// [here](https://man7.org/linux/man-pages/man2/vfork.2.html)
     pub unsafe fn vfork() -> pid_t;
+
     pub unsafe fn execve(filename: *const c_char, argv: *const *const c_char, envp: *const *const c_char) -> c_int;
+    
+    /// exit() terminates the calling process "immediately".
+    /// #### RETURN VALUE
+    /// These functions do not return.
+    /// #### Link
+    /// Read the docs
+    /// [here](https://man7.org/linux/man-pages/man3/exit.3.html)
     pub unsafe fn exit(error_code: c_int);
+
     // pub unsafe fn wait4			(pid_t upid, int *stat_addr, int options, struct rusage *ru);
+    
+    /// The kill() system call can be used to send any signal to any
+    /// process group or process.
+    /// #### RETURN VALUE
+    /// On success (at least one signal was sent), zero is returned.  On
+    /// error, -1 is returned, and errno is set to indicate the error.
+    /// #### ERRORS
+    /// EINVAL(22), EPERM(1), ESRCH(3).
+    /// #### Link
+    /// Read the docs
+    /// [here](https://man7.org/linux/man-pages/man2/kill.2.html)
     pub unsafe fn kill(pid: pid_t, sig: c_int) -> c_int;
+
+
     // pub unsafe fn newuname		(	struct new_utsname *name);
     // pub unsafe fn semget		(SYSVIPC	key_t key, int nsems, int semflg);
     // pub unsafe fn semop		(SYSVIPC	int semid, struct sembuf *tsops, unsigned nsops);
