@@ -1,1 +1,21 @@
-<meta http-equiv="refresh" content="0; url=syscalls_rust">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Version Redirect</title>
+  <script>
+    // Get the URL parameters
+    const params = new URLSearchParams(window.location.search);
+
+    // Get the 'version' parameter from the URL
+    const version = params.get('version') || '0.2.6';
+
+    // Redirect if 'version' is provided
+    if (version) {
+      window.location.href = `/${version}/index.html`;
+    }
+  </script>
+</head>
+<body>
+
+</body>
+</html>
