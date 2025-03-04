@@ -7,15 +7,14 @@
     const params = new URLSearchParams(window.location.search);
 
     // Get the 'version' parameter from the URL
-    const version = params.get('version') || '0.2.7';
+    const version = params.get('version') || '0.2.7'; // Fallback if version is not provided
 
-    // Redirect if 'version' is provided
-    if (version) {
-      window.location.href = `/${version}/syscalls_rust/index.html`;
-    }
+    // Get the current path and append the versioned index.html
+    const currentPath = window.location.pathname.replace(/\/$/, ''); // Remove trailing slash if present
+    window.location.href = `${currentPath}/${version}/syscalls_rust/index.html`;
   </script>
 </head>
 <body>
-
+  <h1>Redirecting...</h1>
 </body>
 </html>
