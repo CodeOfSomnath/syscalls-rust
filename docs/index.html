@@ -7,11 +7,11 @@
     const params = new URLSearchParams(window.location.search);
 
     // Get the 'version' parameter from the URL
-    const version = params.get('version') || '0.2.6';
+    const version = params.get('version') || '0.2.7';
 
     // Redirect if 'version' is provided
     if (version) {
-      window.location.href = `/${version}/index.html`;
+      window.location.href = `/${version}/syscalls_rust/index.html`;
     }
   </script>
 </head>
